@@ -15,7 +15,7 @@ public class DetermineBalancedBST {
 		String bstInput = input.nextLine();
 		
 		//Call tree constructor to construct a tree
-		
+		BinaryTree tree = new BinaryTree(bstInput);
 		//Display the tree
 		
 		//Determine if the tree is a bst or balanced, etc
