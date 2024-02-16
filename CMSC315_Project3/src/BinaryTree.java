@@ -42,9 +42,9 @@ public class BinaryTree {
 		return -1;
 	}
 	
-	public int height(TreeNode<E> root) {
-		return -1;
-	}
+//	public int height(TreeNode<E> root) {
+//		return -1;
+//	}
 	
 	//returns an arraylist of values from the tree (use this in the second constructor?
 	//Again - unsure of what type the ArrayList should be? 
