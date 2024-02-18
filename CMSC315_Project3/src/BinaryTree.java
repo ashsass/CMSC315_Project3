@@ -18,7 +18,9 @@ public class BinaryTree {
 	//Constructor that takes a string and constructs a tree
 	public BinaryTree(String userInput) {
 		currentIndex = 0;
-		createTree(userInput);
+		root = createTree(userInput);
+		displayTree(root, 0);
+//		System.out.println(root.element);
 	}
 	
 	//Construcor that takes in an AL of ints and makes a balanced tree 
@@ -54,7 +56,7 @@ public class BinaryTree {
 		
 		//Create a node if the portion of the string was a number
 		int value = Integer.parseInt(s.substring(start, currentIndex));
-		root = new Node(value);
+		Node node = newNode(value);
 		
 		
 		//Use stack to find the index for the left and right subtree
@@ -83,24 +85,34 @@ public class BinaryTree {
 //		System.out.println("4. currentIndex: " + currentIndex);
 //		System.out.println("4. start: " + start);
 		if(start != currentIndex && currentIndex > start) {
-//			String leftSubstring = s.substring(start, currentIndex + 1);
-//			String rightSubstring = s.substring(currentIndex + 2);
+			String leftSubstring = s.substring(start, currentIndex + 1);
+			String rightSubstring = s.substring(currentIndex + 2);
 //			System.out.println("Left substring is : " + leftSubstring);
 //			System.out.println("Right substring is : " + rightSubstring);
 			//System.out.printf("Start: %d, currentIndex: %d\n", start, currentIndex);
-			root.left = createTree(s.substring(start, currentIndex + 1));
+			node.left = createTree(leftSubstring);
 			
 			//System.out.printf("Start: %d, currentIndex: %d\n", start, currentIndex);
 			//System.out.println("in the root left/right loop. Show the current index substring: " + s.substring(currentIndex));
-			root.right = createTree(s.substring(currentIndex + 2));
+			node.right = createTree(rightSubstring);
 		}
-			return root;
+			return node;
 	}
 	
 	
 	//Outputs the indented tree 
-	public void displayTree(String userInput) {
-		
+	public void displayTree(Node node, int level) {
+        if (node == null) {
+            return;
+        }
+
+        for (int i = 0; i < level; i++) {
+            System.out.print("    ");
+        }
+
+        System.out.println(node.element);
+        displayTree(node.left, level + 1);
+        displayTree(node.right, level + 1);
 	}
 	
 	//determines if it's a binary search tree
@@ -130,6 +142,7 @@ public class BinaryTree {
 	}
 	
 	private static Node newNode(int e) {
+//		System.out.println("newNode called");
 		return new Node(e);
 	}
 	
