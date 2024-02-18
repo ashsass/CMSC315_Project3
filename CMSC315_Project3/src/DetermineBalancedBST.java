@@ -25,6 +25,9 @@ public class DetermineBalancedBST {
 			
 			//Call tree constructor to construct a tree
 			BinaryTree tree = new BinaryTree(bstInput);
+
+	        
+	        
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

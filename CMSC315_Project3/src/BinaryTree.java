@@ -8,6 +8,7 @@ import java.util.*;
 
 public class BinaryTree {
 	private Node root;
+	private int currentIndex;
 	
 	//no-arg constructor for best practice
 	public BinaryTree() {
@@ -16,6 +17,7 @@ public class BinaryTree {
 	
 	//Constructor that takes a string and constructs a tree
 	public BinaryTree(String userInput) {
+		currentIndex = 0;
 		createTree(userInput);
 	}
 	
@@ -25,12 +27,74 @@ public class BinaryTree {
 		
 	}
 	
-	private void createTree(String userInput) {
-		//get rid of outside parantheses
-		userInput = userInput.substring(1, userInput.length()-1);
-		System.out.print(userInput);
+	private Node createTree(String s) {
+		//Use currentIndex to move through the string and find the end index for node/subtrees
+		//Use start as the beginning point to the index
+		currentIndex = 0;
+		int start = currentIndex;
+//		System.out.println("1. currentIndex: " + currentIndex);
+//		System.out.println("1. start: " + start);
+		
+		//Remove outer () if the string is greater than one character
+		if(s.length() > 1) {
+			s = s.substring(1, s.length() - 1);
+		} else {
+			return null;
+		}
+//		System.out.println(s);
+		
+		//Want to find the amount of string that is actually a number to set the new node
+		//So from start to currentIndex will have the value for a new node
+		while(currentIndex < s.length() && Character.isDigit(s.charAt(currentIndex))) {
+			currentIndex++;
+		}
+		
+//		System.out.println("2. currentIndex: " + currentIndex);
+//		System.out.println("2. start: " + start);
+		
+		//Create a node if the portion of the string was a number
+		int value = Integer.parseInt(s.substring(start, currentIndex));
+		root = new Node(value);
 		
 		
+		//Use stack to find the index for the left and right subtree
+		//turn this into its own method?
+		Stack<Character> stack = new Stack<>();
+		currentIndex++; //skip the space
+		start = currentIndex;
+//		System.out.println("3. currentIndex: " + currentIndex);
+//		System.out.println("3. start: " + start);
+		for(int i = currentIndex; i < s.length(); i++) {
+			if(s.charAt(i) == '(') {
+				stack.push(s.charAt(i));
+			}
+			else if(s.charAt(i) == ')') {
+				if(!stack.isEmpty() && stack.peek() == '(') {
+					stack.pop();
+				
+					if(stack.isEmpty()) {
+						currentIndex = i;
+						break;
+					}
+				}
+			}
+		}
+		//System.out.print(currentIndex);
+//		System.out.println("4. currentIndex: " + currentIndex);
+//		System.out.println("4. start: " + start);
+		if(start != currentIndex && currentIndex > start) {
+//			String leftSubstring = s.substring(start, currentIndex + 1);
+//			String rightSubstring = s.substring(currentIndex + 2);
+//			System.out.println("Left substring is : " + leftSubstring);
+//			System.out.println("Right substring is : " + rightSubstring);
+			//System.out.printf("Start: %d, currentIndex: %d\n", start, currentIndex);
+			root.left = createTree(s.substring(start, currentIndex + 1));
+			
+			//System.out.printf("Start: %d, currentIndex: %d\n", start, currentIndex);
+			//System.out.println("in the root left/right loop. Show the current index substring: " + s.substring(currentIndex));
+			root.right = createTree(s.substring(currentIndex + 2));
+		}
+			return root;
 	}
 	
 	
@@ -65,10 +129,14 @@ public class BinaryTree {
 		return null;
 	}
 	
-	private class Node {
-		Integer element;
-		Node leftChild;
-		Node rightChild;
+	private static Node newNode(int e) {
+		return new Node(e);
+	}
+	
+	private static class Node {
+		int element;
+		Node left;
+		Node right;
 		
 		//no-arg constructor
 		private Node() {
@@ -77,8 +145,6 @@ public class BinaryTree {
 		
 		private Node(Integer e) {
 			this.element = e;
-			this.leftChild = null;
-			this.rightChild = null;
 		}
 		
 //		private void insert(Node node, Integer newEl) {
@@ -94,19 +160,19 @@ public class BinaryTree {
 //			else if(newEl < node.element)
 //		}
 //		
-		private void setLeftChild(Node left) {
-			this.leftChild = left;
-		}
-		
-		private Node getLeftChild() {
-			return leftChild;
-		}
-		
-		private void setRightChild(Node right) {
-			this.rightChild = right;
-		}
-		private Node getRightChild() {
-			return rightChild;
-		}
+//		private void setLeftChild(Node left) {
+//			this.leftChild = left;
+//		}
+//		
+//		private Node getLeftChild() {
+//			return leftChild;
+//		}
+//		
+//		private void setRightChild(Node right) {
+//			this.rightChild = right;
+//		}
+//		private Node getRightChild() {
+//			return rightChild;
+//		}
 	}
 }
