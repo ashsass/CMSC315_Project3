@@ -34,16 +34,16 @@ public class BinaryTree {
 		//Use start as the beginning point to the index
 		currentIndex = 0;
 		int start = currentIndex;
-//		System.out.println("1. currentIndex: " + currentIndex);
-//		System.out.println("1. start: " + start);
+		System.out.println("1. currentIndex: " + currentIndex);
+		System.out.println("1. start: " + start);
 		
 		//Remove outer () if the string is greater than one character
-		if(s.length() > 1) {
+		if(s.length() > 1 && s.charAt(0) == '(') {
 			s = s.substring(1, s.length() - 1);
 		} else {
 			return null;
 		}
-//		System.out.println(s);
+		System.out.println(s);
 		
 		//Want to find the amount of string that is actually a number to set the new node
 		//So from start to currentIndex will have the value for a new node
@@ -51,8 +51,8 @@ public class BinaryTree {
 			currentIndex++;
 		}
 		
-//		System.out.println("2. currentIndex: " + currentIndex);
-//		System.out.println("2. start: " + start);
+		System.out.println("2. currentIndex: " + currentIndex);
+		System.out.println("2. start: " + start);
 		
 		//Create a node if the portion of the string was a number
 		int value = Integer.parseInt(s.substring(start, currentIndex));
@@ -64,8 +64,8 @@ public class BinaryTree {
 		Stack<Character> stack = new Stack<>();
 		currentIndex++; //skip the space
 		start = currentIndex;
-//		System.out.println("3. currentIndex: " + currentIndex);
-//		System.out.println("3. start: " + start);
+		System.out.println("3. currentIndex: " + currentIndex);
+		System.out.println("3. start: " + start);
 		for(int i = currentIndex; i < s.length(); i++) {
 			if(s.charAt(i) == '(') {
 				stack.push(s.charAt(i));
@@ -82,18 +82,15 @@ public class BinaryTree {
 			}
 		}
 		//System.out.print(currentIndex);
-//		System.out.println("4. currentIndex: " + currentIndex);
-//		System.out.println("4. start: " + start);
+		System.out.println("4. currentIndex: " + currentIndex);
+		System.out.println("4. start: " + start);
 		if(start != currentIndex && currentIndex > start) {
 			String leftSubstring = s.substring(start, currentIndex + 1);
 			String rightSubstring = s.substring(currentIndex + 2);
-//			System.out.println("Left substring is : " + leftSubstring);
-//			System.out.println("Right substring is : " + rightSubstring);
+			System.out.println("Left substring is : " + leftSubstring);
+			System.out.println("Right substring is : " + rightSubstring);
 			//System.out.printf("Start: %d, currentIndex: %d\n", start, currentIndex);
 			node.left = createTree(leftSubstring);
-			
-			//System.out.printf("Start: %d, currentIndex: %d\n", start, currentIndex);
-			//System.out.println("in the root left/right loop. Show the current index substring: " + s.substring(currentIndex));
 			node.right = createTree(rightSubstring);
 		}
 			return node;
