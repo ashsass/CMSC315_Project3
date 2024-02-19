@@ -113,9 +113,10 @@ public class BinaryTree {
 	}
 	
 	//determines if it's a binary search tree
+	//traverse the tree and if it passes the less than greater than its bst?
 	public boolean isBST() {
 		return false;
-	}
+	} 
 	
 	//maybe use another method to determine if the BST is balanced?
 	public boolean isBalanced() {
