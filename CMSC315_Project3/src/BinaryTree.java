@@ -5,6 +5,9 @@
  */
 
 import java.util.*;
+/*
+ * NOTE: don't even worry about balance factor if tree is not a bst
+ */
 
 public class BinaryTree {
 	private Node root;
