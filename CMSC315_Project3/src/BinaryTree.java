@@ -174,11 +174,10 @@ public class BinaryTree {
 	}
 	
 	//returns an arraylist of values from the tree (use this in the second constructor?
-	//How to traverse the binary tree for the arraylist - preorder?
-	//Also should it be balanced while making the array list or just create the arraylist then send it to
-	//the new constructor 
+	//How to traverse the binary tree for the arraylist - inorder
 	
-	//make it an array list of nodes or integers?
+	//make it an array list of nodes or integers? - probaby should be node for when i need to reprint
+	//Use int for now 
 	public ArrayList<Integer> toArray() {
 		Node current = root;
 		ArrayList<Integer> arr = new ArrayList<>();
@@ -188,9 +187,10 @@ public class BinaryTree {
 	public ArrayList<Integer> toArray(ArrayList<Integer> arr, Node node){
 		if(node == null) return null;
 //		System.out.println(node.element);
-		arr.add(node.element);
+		
 //		System.out.println(arr.size());
 		toArray(arr, node.left);
+		arr.add(node.element);
 		toArray(arr, node.right);
 		return arr;
 	}
