@@ -22,6 +22,7 @@ public class BinaryTree {
 		displayTree(root, 0);
 //		System.out.println(root.element);
 		System.out.println("Is tree a bst? " + isBST(root));
+		System.out.println("Height of tree: " + height());
 	}
 	
 	//Construcor that takes in an AL of ints and makes a balanced tree 
@@ -134,12 +135,22 @@ public class BinaryTree {
 	
 	//get the height of the bst
 	public int height() {
-		return -1;
+		return height(root);
 	}
 	
-//	public int height(TreeNode<E> root) {
-//		return -1;
-//	}
+	public int height(Node root) {
+		Node current = root;
+		int left = 0, right = 0;
+		
+		if(current == null)
+			return -1;
+		left = height(current.left);
+		right = height(current.right);
+		if(left > right)
+			return left + 1;
+		else
+			return right + 1;
+	}
 	
 	//returns an arraylist of values from the tree (use this in the second constructor?
 	//Again - unsure of what type the ArrayList should be? 
