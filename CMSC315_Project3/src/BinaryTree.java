@@ -23,6 +23,7 @@ public class BinaryTree {
 //		System.out.println(root.element);
 		System.out.println("Is tree a bst? " + isBST(root));
 		System.out.println("Height of tree: " + height());
+		System.out.println("Is tree balanced: " + isBalanced(root));
 	}
 	
 	//Construcor that takes in an AL of ints and makes a balanced tree 
@@ -118,7 +119,7 @@ public class BinaryTree {
 	//traverse the tree and if it passes the less than greater than its bst?
 	public boolean isBST(Node node) {
 		if(node == null)
-			return true;
+			return false;
 		else if(node.left != null && node.element < (node.left).element)
 			return false;
 		else if(node.right != null && node.element > (node.right).element)
@@ -129,8 +130,18 @@ public class BinaryTree {
 	} 
 	
 	//maybe use another method to determine if the BST is balanced?
-	public boolean isBalanced() {
-		return false;
+	public boolean isBalanced(Node node) {
+		if(node ==  null)
+			return false;
+		int leftHeight = height(node.left);
+		int rightHeight = height(node.right);
+		int balanceFactor = Math.abs(leftHeight - rightHeight);
+		System.out.printf("left height: %d, and right height: %d\n", leftHeight, rightHeight);
+		System.out.printf("Balance factor: %d\n", balanceFactor);
+		if(balanceFactor == 1 || balanceFactor == 0)
+			return true;
+		else
+			return false;
 	}
 	
 	//get the height of the bst
