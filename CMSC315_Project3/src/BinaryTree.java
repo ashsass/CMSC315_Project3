@@ -22,11 +22,16 @@ public class BinaryTree {
 	public BinaryTree(String userInput) {
 		currentIndex = 0;
 		root = createTree(userInput);
-		displayTree(root, 0);
+//		displayTree(root, 0);
 //		System.out.println(root.element);
-		System.out.println("Is tree a bst? " + isBST(root));
-		System.out.println("Height of tree: " + height());
-		System.out.println("Is tree balanced: " + isBalanced(root));
+//		System.out.println("Is tree a bst? " + isBST(root));
+//		System.out.println("Height of tree: " + height());
+//		System.out.println("Is tree balanced: " + isBalanced(root));
+		ArrayList<Integer> arr = toArray();
+//		System.out.println(arr.size());
+		for(Integer e: arr)
+			System.out.print(e + " ");
+		
 	}
 	
 	//Construcor that takes in an AL of ints and makes a balanced tree 
@@ -172,9 +177,22 @@ public class BinaryTree {
 	//How to traverse the binary tree for the arraylist - preorder?
 	//Also should it be balanced while making the array list or just create the arraylist then send it to
 	//the new constructor 
-	public ArrayList<Integer> toArray() {
 	
-		return null;
+	//make it an array list of nodes or integers?
+	public ArrayList<Integer> toArray() {
+		Node current = root;
+		ArrayList<Integer> arr = new ArrayList<>();
+		return toArray(arr, current);
+	}
+	
+	public ArrayList<Integer> toArray(ArrayList<Integer> arr, Node node){
+		if(node == null) return null;
+//		System.out.println(node.element);
+		arr.add(node.element);
+//		System.out.println(arr.size());
+		toArray(arr, node.left);
+		toArray(arr, node.right);
+		return arr;
 	}
 	
 	private static Node newNode(int e) {
