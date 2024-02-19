@@ -122,7 +122,7 @@ public class BinaryTree {
 	//traverse the tree and if it passes the less than greater than its bst?
 	public boolean isBST(Node node) {
 		if(node == null)
-			return false;
+			return true;
 		else if(node.left != null && node.element < (node.left).element)
 			return false;
 		else if(node.right != null && node.element > (node.right).element)
@@ -139,8 +139,8 @@ public class BinaryTree {
 		int leftHeight = height(node.left);
 		int rightHeight = height(node.right);
 		int balanceFactor = Math.abs(leftHeight - rightHeight);
-		System.out.printf("left height: %d, and right height: %d\n", leftHeight, rightHeight);
-		System.out.printf("Balance factor: %d\n", balanceFactor);
+//		System.out.printf("left height: %d, and right height: %d\n", leftHeight, rightHeight);
+//		System.out.printf("Balance factor: %d\n", balanceFactor);
 		if(balanceFactor == 1 || balanceFactor == 0)
 			return true;
 		else
