@@ -30,7 +30,9 @@ public class BinaryTree {
 	}
 	
 	//Construcor that takes in an AL of ints and makes a balanced tree 
-	//Note: unsure the type to use for ArrayList (Integer? String?)
+	//Note: create a balanced tree from array list
+	//How do i implement making it balanced? does that happen after i get the array list or should the process
+	//of making the array list incorporate making it balanced and then i just redraw it in this method?
 	public BinaryTree(ArrayList<Integer> bstList) {
 		
 	}
@@ -167,7 +169,9 @@ public class BinaryTree {
 	}
 	
 	//returns an arraylist of values from the tree (use this in the second constructor?
-	//Again - unsure of what type the ArrayList should be? 
+	//How to traverse the binary tree for the arraylist - preorder?
+	//Also should it be balanced while making the array list or just create the arraylist then send it to
+	//the new constructor 
 	public ArrayList<Integer> toArray() {
 	
 		return null;
