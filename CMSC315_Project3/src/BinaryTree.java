@@ -44,7 +44,14 @@ public class BinaryTree {
 		displayTree(root, 0);
 	}
 	
+//	private ArrayList<Integr> checkSorted(ArrayList<Integer> list){
+//		
+//	}
+	
 	private Node createBalancedBST(ArrayList<Integer> list, int start, int end) {
+		//Need to make sure arraylist is sorted in increasing order
+		list.sort(null);
+		
 		if(list.isEmpty()) return null;
 		else if(start > end) return null;
 		else if(list.get(start) == list.get(end)) return new Node(list.get(start)); 
@@ -200,18 +207,21 @@ public class BinaryTree {
 	public ArrayList<Integer> toArray() {
 		Node current = root;
 		ArrayList<Integer> arr = new ArrayList<>();
-		return toArray(arr, current);
+		toArray(arr, current);
+		return arr;
 	}
 	
-	public ArrayList<Integer> toArray(ArrayList<Integer> arr, Node node){
-		if(node == null) return null;
+//	public ArrayList<Integer> toArray(ArrayList<Integer> arr, Node node){
+	public void toArray(ArrayList<Integer> arr, Node node){
+//		if(node == null) return null;
 //		System.out.println(node.element);
 		
 //		System.out.println(arr.size());
-		toArray(arr, node.left);
-		arr.add(node.element);
-		toArray(arr, node.right);
-		return arr;
+		if(node != null) {
+			toArray(arr, node.left);
+			arr.add(node.element);
+			toArray(arr, node.right);
+		}
 	}
 	
 	public Node getRoot() {
