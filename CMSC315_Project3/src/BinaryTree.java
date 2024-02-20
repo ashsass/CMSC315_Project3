@@ -5,9 +5,11 @@
  */
 
 import java.util.*;
+import java.util.regex.Matcher;
 /*
  * NOTE: don't even worry about balance factor if tree is not a bst
  */
+import java.util.regex.Pattern;
 
 public class BinaryTree {
 	private Node root;
@@ -21,7 +23,6 @@ public class BinaryTree {
 	//Constructor that takes a string and constructs a tree
 	public BinaryTree(String userInput) throws InvalidTreeException {
 		currentIndex = 0;
-		validateString(userInput);
 		root = createTree(userInput);
 		displayTree(root, 0);
 //		System.out.println(root.element);
@@ -67,20 +68,19 @@ public class BinaryTree {
 	}
 	
 	private void validateString(String s) throws InvalidTreeException {
-		final String TREE_PATTERN = "\\((\\d+|\\*)\\s*((\\(.*\\))|(\\*))\\)";
-		if(!s.matches(TREE_PATTERN)) {
-			throw new InvalidTreeException("There is an invalid character in the string.");
+		for(int i = 0; i < s.length(); i++) {
+			if(!Character.isDigit(s.charAt(i)) && 
+					s.charAt(i) != '(' && s.charAt(i) != ')' && 
+					s.charAt(i) != '*' && s.charAt(i) != ' ') {
+				throw new InvalidTreeException("Error - unknown character found in string (" + s.charAt(i) + ")");
+			}
 		}
-
-//		if(!Character.isDigit(s.charAt(currentIndex)) && s.charAt(currentIndex) != '(' && s.charAt(currentIndex) != ')' && s.charAt(currentIndex) != '*' && s.charAt(currentIndex) != ' ') {
-//			System.out.println("Is char a digit? : " + Character.isDigit(s.charAt(currentIndex)));
-//			throw new InvalidTreeException("Error - unknown character found in string (" + s.charAt(currentIndex) + ")");
-//		}
 	}
 	
 	private Node createTree(String s) throws InvalidTreeException {
 		//Use currentIndex to move through the string and find the end index for node/subtrees
 		//Use start as the beginning point to the index
+		validateString(s);
 		currentIndex = 0;
 		int start = currentIndex;
 //		System.out.println("1. currentIndex: " + currentIndex);
@@ -129,17 +129,17 @@ public class BinaryTree {
 						break;
 					}
 				}
-				//If the right paranethesis does not have a left paranthesis in the stack throw exception
+				//If the right parenethesis does not have a left parenthesis in the stack throw exception
 				else if(stack.isEmpty()) {
-					throw new InvalidTreeException("Error: Missing a left paranthesis.");
+					throw new InvalidTreeException("Error: Missing a left parenthesis.");
 				}
 			}
 			
-			//If we have reached the end of the string and there is a left paranthesis in the stack throw
+			//If we have reached the end of the string and there is a left parenthesis in the stack throw
 			//an exception
 			else if(i == s.length() - 1 && !stack.isEmpty()) {
 				if(stack.peek() == '(') {
-					throw new InvalidTreeException("Error: Missing a right paranthesis.");
+					throw new InvalidTreeException("Error: Missing a right parenthesis.");
 				}
 			}
 		}
