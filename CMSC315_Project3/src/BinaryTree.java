@@ -1,15 +1,10 @@
 /*
  * Name: Ashlyn Sassaman
  * Due date: 2/20/24
- * Description: 
+ * Description: Create a binary tree from user input string. Determine if the tree is a binary search tree. If it is not, take the values of the tree and add it to an ArrayList. Sort the ArrayList and redraw the input as a binary search tree. If the original user input was a binary search tree but it was not balanced, take the values as an ArrayList and rebalance the tree. 
  */
 
 import java.util.*;
-import java.util.regex.Matcher;
-/*
- * NOTE: don't even worry about balance factor if tree is not a bst
- */
-import java.util.regex.Pattern;
 
 public class BinaryTree {
 	private Node root;
@@ -25,54 +20,41 @@ public class BinaryTree {
 		currentIndex = 0;
 		root = createTree(userInput);
 		displayTree(root, 0);
-//		System.out.println(root.element);
-//		System.out.println("Is tree a bst? " + isBST(root));
-//		System.out.println("Height of tree: " + height());
-//		System.out.println("Is tree balanced: " + isBalanced(root));
-//		ArrayList<Integer> arr = toArray();
-//		root = createBalancedBST(arr, 0, arr.size() - 1);
-//		displayTree(root, 0);
-//		System.out.println(arr.size());
-//		for(Integer e: arr)
-//			System.out.print(e + " ");
-		
-		
 	}
 	
 	//Construcor that takes in an AL of ints and makes a balanced tree 
-	//Note: for now ignore this constructor and work on createBalancedBST need to figure out how everything will flow in the main method once I have it all worked out 
 	public BinaryTree(ArrayList<Integer> list) {
 		root = createBalancedBST(list, 0, list.size() - 1);
 		displayTree(root, 0);
 	}
 	
-//	private ArrayList<Integr> checkSorted(ArrayList<Integer> list){
-//		
-//	}
-	
-	private Node createBalancedBST(ArrayList<Integer> list, int start, int end) {
-		if(list.isEmpty()) return null;
-		else if(start > end) return null;
-		else if(list.get(start) == list.get(end)) return new Node(list.get(start)); 
-		
-		int midpoint = (start + end) / 2;
-//		System.out.println(list.get(midpoint));
-		Node node = new Node(list.get(midpoint));
-//		System.out.printf("Node created: %d\n", node.element);
-//		System.out.printf("Start is %d, midpoint is %d, end is %d\n", start, midpoint, end);
-//		System.out.printf("Left list starts at %d and ends at %d\n", list.get(0), list.get(midpoint-1));
-//		System.out.printf("Right list starts at %d and ends at %d\n", list.get(midpoint+1), list.get(end));
-		node.left = createBalancedBST(list, start, midpoint - 1);
-		node.right = createBalancedBST(list, midpoint + 1, end);
-		return node;
-	}
-	
 	private void validateString(String s) throws InvalidTreeException {
+		Stack<Character> stack = new Stack<>();
+		
 		for(int i = 0; i < s.length(); i++) {
+			//If a char is not a valid input char
 			if(!Character.isDigit(s.charAt(i)) && 
 					s.charAt(i) != '(' && s.charAt(i) != ')' && 
 					s.charAt(i) != '*' && s.charAt(i) != ' ') {
 				throw new InvalidTreeException("Error - unknown character found in string (" + s.charAt(i) + ")");
+			}
+			//Detect extra space at beginning of string or any any extra spaces that would throw off input reading
+			else if((i == 0 && s.charAt(i) == ' ') ||
+					(i > 1 && (s.charAt(i - 1) == ' ' && s.charAt(i) == ' ')))
+				throw new InvalidTreeException("Error - extra spaces detected");
+			
+			else if(s.charAt(i) == '(') 
+				stack.push(s.charAt(i));
+			//Missing a right parantheses
+			else if(s.charAt(i) == ')') {
+				if(stack.isEmpty()) 
+					throw new InvalidTreeException("Error - Missing a left parenthesis.");
+			}
+			
+			//Missing a left parantheses
+			else if(i == s.length() - 1 && !stack.isEmpty()) {
+				if(stack.peek() == '(') 
+					throw new InvalidTreeException("Error - Missing a right parenthesis.");
 			}
 		}
 	}
@@ -83,16 +65,13 @@ public class BinaryTree {
 		validateString(s);
 		currentIndex = 0;
 		int start = currentIndex;
-//		System.out.println("1. currentIndex: " + currentIndex);
-//		System.out.println("1. start: " + start);
 		
 		//Remove outer () if the string is greater than one character
-		if(s.length() > 1 && s.charAt(0) == '(') {
+		if(s.length() > 1 && s.charAt(0) == '(') 
 			s = s.substring(1, s.length() - 1);
-		} else {
+		else 
 			return null;
-		}
-//		System.out.println(s);
+		
 		
 		//Want to find the amount of string that is actually a number to set the new node
 		//So from start to currentIndex will have the value for a new node
@@ -100,82 +79,64 @@ public class BinaryTree {
 			currentIndex++;
 		}
 		
-//		System.out.println("2. currentIndex: " + currentIndex);
-//		System.out.println("2. start: " + start);
-		
 		//Create a node if the portion of the string was a number
 		int value = Integer.parseInt(s.substring(start, currentIndex));
 		Node node = new Node(value);
 		
 		
 		//Use stack to find the index for the left and right subtree
-		//turn this into its own method?
 		Stack<Character> stack = new Stack<>();
 		currentIndex++; //skip the space
 		start = currentIndex;
-//		System.out.println("3. currentIndex: " + currentIndex);
-//		System.out.println("3. start: " + start);
 		for(int i = currentIndex; i < s.length(); i++) {
-//			System.out.println("char is " + s.charAt(i));
-			if(s.charAt(i) == '(') {
+			if(s.charAt(i) == '(') 
 				stack.push(s.charAt(i));
-			}
 			else if(s.charAt(i) == ')') {
 				if(!stack.isEmpty() && stack.peek() == '(') {
 					stack.pop();
-				
+			
 					if(stack.isEmpty()) {
 						currentIndex = i;
 						break;
 					}
 				}
-				//If the right parenethesis does not have a left parenthesis in the stack throw exception
-				else if(stack.isEmpty()) {
-					throw new InvalidTreeException("Error: Missing a left parenthesis.");
-				}
-			}
-			
-			//If we have reached the end of the string and there is a left parenthesis in the stack throw
-			//an exception
-			else if(i == s.length() - 1 && !stack.isEmpty()) {
-				if(stack.peek() == '(') {
-					throw new InvalidTreeException("Error: Missing a right parenthesis.");
-				}
 			}
 		}
-		//System.out.print(currentIndex);
-//		System.out.println("4. currentIndex: " + currentIndex);
-//		System.out.println("4. start: " + start);
+		
 		if(start != currentIndex && currentIndex > start) {
 			String leftSubstring = s.substring(start, currentIndex + 1);
 			String rightSubstring = s.substring(currentIndex + 2);
-//			System.out.println("Left substring is : " + leftSubstring);
-//			System.out.println("Right substring is : " + rightSubstring);
-			//System.out.printf("Start: %d, currentIndex: %d\n", start, currentIndex);
 			node.left = createTree(leftSubstring);
 			node.right = createTree(rightSubstring);
 		}
 			return node;
 	}
 	
+	//Create new tree from ArrayList values
+	private Node createBalancedBST(ArrayList<Integer> list, int start, int end) {
+		if(list.isEmpty()) return null;
+		else if(start > end) return null;
+		else if(list.get(start) == list.get(end)) return new Node(list.get(start)); 
+		
+		int midpoint = (start + end) / 2;
+		Node node = new Node(list.get(midpoint));
+		node.left = createBalancedBST(list, start, midpoint - 1);
+		node.right = createBalancedBST(list, midpoint + 1, end);
+		return node;
+	}
 	
 	//Outputs the indented tree 
 	public void displayTree(Node node, int level) {
-        if (node == null) {
-            return;
-        }
+        if (node == null) return;
 
-        for (int i = 0; i < level; i++) {
+        for (int i = 0; i < level; i++)
             System.out.print("    ");
-        }
-
         System.out.println(node.element);
         displayTree(node.left, level + 1);
         displayTree(node.right, level + 1);
 	}
 	
-	//determines if it's a binary search tree
-	//traverse the tree and if it passes the less than greater than its bst?
+	//Determines if it's a binary search tree
 	public boolean isBST(Node node) {
 		if(node == null)
 			return true;
@@ -188,26 +149,25 @@ public class BinaryTree {
 		return left && right;
 	} 
 	
-	//maybe use another method to determine if the BST is balanced?
+	//Determines if its a balanced tree
 	public boolean isBalanced(Node node) {
 		if(node ==  null)
 			return false;
 		int leftHeight = height(node.left);
 		int rightHeight = height(node.right);
 		int balanceFactor = Math.abs(leftHeight - rightHeight);
-//		System.out.printf("left height: %d, and right height: %d\n", leftHeight, rightHeight);
-//		System.out.printf("Balance factor: %d\n", balanceFactor);
 		if(balanceFactor == 1 || balanceFactor == 0)
 			return true;
 		else
 			return false;
 	}
 	
-	//get the height of the bst
+	//Get the height of the bst
 	public int height() {
 		return height(root);
 	}
 	
+	//height helper method
 	public int height(Node root) {
 		Node current = root;
 		int left = 0, right = 0;
@@ -222,24 +182,19 @@ public class BinaryTree {
 			return right + 1;
 	}
 	
-	//returns an arraylist of values from the tree (use this in the second constructor?
+	//Returns an arraylist of values from the tree (use this in the second constructor?
 	public ArrayList<Integer> toArray() {
 		Node current = root;
 		ArrayList<Integer> arr = new ArrayList<>();
 		toArray(arr, current);
 		
 		//check if bst if not need to sort the array list 
-		if(!isBST(root)) 
-			arr.sort(null);
+		if(!isBST(root)) arr.sort(null);
 		
 		return arr;
 	}
 	
 	public void toArray(ArrayList<Integer> arr, Node node){
-//		if(node == null) return null;
-//		System.out.println(node.element);
-		
-//		System.out.println(arr.size());
 		if(node != null) {
 			toArray(arr, node.left);
 			arr.add(node.element);
