@@ -22,14 +22,14 @@ public class BinaryTree {
 	public BinaryTree(String userInput) {
 		currentIndex = 0;
 		root = createTree(userInput);
-//		displayTree(root, 0);
+		displayTree(root, 0);
 //		System.out.println(root.element);
 //		System.out.println("Is tree a bst? " + isBST(root));
 //		System.out.println("Height of tree: " + height());
 //		System.out.println("Is tree balanced: " + isBalanced(root));
-		ArrayList<Integer> arr = toArray();
-		root = createBalancedBST(arr, 0, arr.size() - 1);
-		displayTree(root, 0);
+//		ArrayList<Integer> arr = toArray();
+//		root = createBalancedBST(arr, 0, arr.size() - 1);
+//		displayTree(root, 0);
 //		System.out.println(arr.size());
 //		for(Integer e: arr)
 //			System.out.print(e + " ");
@@ -212,6 +212,10 @@ public class BinaryTree {
 		arr.add(node.element);
 		toArray(arr, node.right);
 		return arr;
+	}
+	
+	public Node getRoot() {
+		return this.root;
 	}
 	
 	private static Node newNode(int e) {

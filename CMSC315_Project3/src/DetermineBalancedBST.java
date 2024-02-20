@@ -20,13 +20,23 @@ public class DetermineBalancedBST {
 		
 		Scanner reader;
 		try {
+			System.out.println("Enter a binary tree:");
 			reader = new Scanner(file);
 			bstInput = reader.nextLine();
 			
 			//Call tree constructor to construct a tree
 			BinaryTree tree = new BinaryTree(bstInput);
+			if(tree.isBST(tree.getRoot())) {
+				if(tree.isBalanced(tree.getRoot())) {
+					System.out.println("It is a balanced binary search tree.");
+					return;
+				}
+				System.out.println("It is a binary search tree but it is not balanced.");
+			}
+				
+					
+				
 
-	        
 	        
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
