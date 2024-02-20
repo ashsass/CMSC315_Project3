@@ -24,15 +24,45 @@ public class BinaryTree {
 		root = createTree(userInput);
 		displayTree(root, 0);
 //		System.out.println(root.element);
-		System.out.println("Is tree a bst? " + isBST(root));
-		System.out.println("Height of tree: " + height());
-		System.out.println("Is tree balanced: " + isBalanced(root));
+//		System.out.println("Is tree a bst? " + isBST(root));
+//		System.out.println("Height of tree: " + height());
+//		System.out.println("Is tree balanced: " + isBalanced(root));
+//		ArrayList<Integer> arr = toArray();
+//		root = createBalancedBST(arr, 0, arr.size() - 1);
+//		displayTree(root, 0);
+//		System.out.println(arr.size());
+//		for(Integer e: arr)
+//			System.out.print(e + " ");
+		
+		
 	}
 	
 	//Construcor that takes in an AL of ints and makes a balanced tree 
-	//Note: unsure the type to use for ArrayList (Integer? String?)
-	public BinaryTree(ArrayList<Integer> bstList) {
+	//Note: for now ignore this constructor and work on createBalancedBST need to figure out how everything will flow in the main method once I have it all worked out 
+	public BinaryTree(ArrayList<Integer> list) {
+		root = createBalancedBST(list, 0, list.size() - 1);
+		displayTree(root, 0);
+	}
+	
+//	private ArrayList<Integr> checkSorted(ArrayList<Integer> list){
+//		
+//	}
+	
+	private Node createBalancedBST(ArrayList<Integer> list, int start, int end) {
+		if(list.isEmpty()) return null;
+		else if(start > end) return null;
+		else if(list.get(start) == list.get(end)) return new Node(list.get(start)); 
 		
+		int midpoint = (start + end) / 2;
+//		System.out.println(list.get(midpoint));
+		Node node = new Node(list.get(midpoint));
+//		System.out.printf("Node created: %d\n", node.element);
+//		System.out.printf("Start is %d, midpoint is %d, end is %d\n", start, midpoint, end);
+//		System.out.printf("Left list starts at %d and ends at %d\n", list.get(0), list.get(midpoint-1));
+//		System.out.printf("Right list starts at %d and ends at %d\n", list.get(midpoint+1), list.get(end));
+		node.left = createBalancedBST(list, start, midpoint - 1);
+		node.right = createBalancedBST(list, midpoint + 1, end);
+		return node;
 	}
 	
 	private Node createTree(String s) {
@@ -62,7 +92,7 @@ public class BinaryTree {
 		
 		//Create a node if the portion of the string was a number
 		int value = Integer.parseInt(s.substring(start, currentIndex));
-		Node node = newNode(value);
+		Node node = new Node(value);
 		
 		
 		//Use stack to find the index for the left and right subtree
@@ -167,21 +197,38 @@ public class BinaryTree {
 	}
 	
 	//returns an arraylist of values from the tree (use this in the second constructor?
-	//Again - unsure of what type the ArrayList should be? 
 	public ArrayList<Integer> toArray() {
-	
-		return null;
+		Node current = root;
+		ArrayList<Integer> arr = new ArrayList<>();
+		toArray(arr, current);
+		
+		//check if bst if not need to sort the array list 
+		if(!isBST(root)) 
+			arr.sort(null);
+		
+		return arr;
 	}
 	
-	private static Node newNode(int e) {
-//		System.out.println("newNode called");
-		return new Node(e);
+	public void toArray(ArrayList<Integer> arr, Node node){
+//		if(node == null) return null;
+//		System.out.println(node.element);
+		
+//		System.out.println(arr.size());
+		if(node != null) {
+			toArray(arr, node.left);
+			arr.add(node.element);
+			toArray(arr, node.right);
+		}
+	}
+	
+	public Node getRoot() {
+		return this.root;
 	}
 	
 	private static class Node {
-		int element;
-		Node left;
-		Node right;
+		private int element;
+		private Node left;
+		private Node right;
 		
 		//no-arg constructor
 		private Node() {
@@ -191,33 +238,5 @@ public class BinaryTree {
 		private Node(Integer e) {
 			this.element = e;
 		}
-		
-//		private void insert(Node node, Integer newEl) {
-//			if(n)
-//			if(newEl > node.element) {
-//				if(node.rightChild != null) {
-//					insert(node.rightChild, newEl);
-//				}
-//				else {
-//					node.rightChild = newEl;
-//				}
-//			}
-//			else if(newEl < node.element)
-//		}
-//		
-//		private void setLeftChild(Node left) {
-//			this.leftChild = left;
-//		}
-//		
-//		private Node getLeftChild() {
-//			return leftChild;
-//		}
-//		
-//		private void setRightChild(Node right) {
-//			this.rightChild = right;
-//		}
-//		private Node getRightChild() {
-//			return rightChild;
-//		}
 	}
 }
