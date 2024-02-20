@@ -1,63 +1,61 @@
 /*
  * Name: Ashlyn Sassaman
  * Due date: 2/20/24
- * Description: 
+ * Description: Ask the user for a binary tree input. Display the tree and determine if it is a binary search tree or not. If it is a binary search tree and is balanced, then ask the user if they want to input more trees. If it is a binary search tree but not balanced, redisplay the balanced tree and report the height of both trees. If it is not a binary search tree, still redisplay the values but as a binary search tree and report the heights.
  */
 
 import java.util.*;
 import java.io.*;
 
 public class DetermineBalancedBST {
+
+	public static String moreTrees = "Y";
 	
 
 	public static void main(String[] args) {
-		//Take in user input
-		//Scanner input = new Scanner(System.in);
-		//System.out.print("Enter a binary tree: ");
 		String bstInput;
-		File file = new File("/Users/ashlynsassaman/git/CMSC315_Project3/CMSC315_Project3/test");
+		//File file = new File("/Users/ashlynsassaman/git/CMSC315_Project3/CMSC315_Project3/test");
 		
-		Scanner reader;
-		try {
-			System.out.println("Enter a binary tree:");
-			reader = new Scanner(file);
-			bstInput = reader.nextLine();
-			
-			//Call tree constructor to construct a tree
-			BinaryTree tree = new BinaryTree(bstInput);
-			if(tree.isBST(tree.getRoot())) {
-				if(tree.isBalanced(tree.getRoot())) {
-					System.out.println("It is a balanced binary search tree.");
-					return;
+		Scanner reader = null;
+		int originalHeight = 0;
+		
+		while(moreTrees.equals("Y")) {
+			try {
+				//Take in user input
+				System.out.print("Enter a binary tree: ");
+				reader = new Scanner(System.in);
+				bstInput = reader.nextLine();
+				
+				//Call tree constructor to construct a tree
+				BinaryTree tree = new BinaryTree(bstInput);
+				
+				//Determine if the tree is a binary search tree and/or balanced
+				String message = tree.isBST(tree.getRoot()) && 
+						tree.isBalanced(tree.getRoot()) ? "It is a balanced binary search tree." : 
+							tree.isBST(tree.getRoot()) ? "It is a binary search tree but it is not balanced." :
+								"It is not binary search tree.";
+				System.out.println(message);
+				
+				//If the tree is not a bst or it is not balanced
+				if(!tree.isBST(tree.getRoot()) || !tree.isBalanced(tree.getRoot())) {
+					originalHeight = tree.height();
+					BinaryTree newTree = new BinaryTree(tree.toArray());
+					System.out.printf("Original tree has height %d\nBalanced tree has height %d\n", originalHeight, newTree.height());
 				}
-				System.out.println("It is a binary search tree but it is not balanced.");
-				BinaryTree newTree = new BinaryTree(tree.toArray());
-			}
-			else {
-				System.out.println("It is not binary search tree.");	
-				BinaryTree newTree = new BinaryTree(tree.toArray());
-			}
 				
-					
-				
-
-	        
-		} catch (FileNotFoundException ex) {
-			ex.printStackTrace();
+				//Ask if user wants more trees:
+				System.out.print("More trees? Y or N: ");
+		        moreTrees = reader.next();
+			} 
+//			catch (FileNotFoundException ex) {
+//				ex.printStackTrace();
+//			}
+			catch (InvalidTreeException ex) {
+				System.out.println(ex);
+			}
 		}
-		catch (InvalidTreeException ex) {
-			System.out.println(ex);
-		}
-		
-		//Display the tree
-		
-		//Determine if the tree is a bst or balanced, etc
-			//If it is ask if user wants to input more binary search trees
-			//If not call the arraylist method and call the constructor with the al values to recreate a balanced/proper tree
-				//Report height of original tree and rebalanced tree
-		
-		//Ask user if want to recreate more trees
-
+		reader.close();
+		System.out.println("Goodbye.");
 	}
 
 }

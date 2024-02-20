@@ -12,6 +12,7 @@ import java.util.*;
 public class BinaryTree {
 	private Node root;
 	private int currentIndex;
+//	private int originalHeight;
 	
 	//no-arg constructor for best practice
 	public BinaryTree() {
@@ -248,6 +249,10 @@ public class BinaryTree {
 	public Node getRoot() {
 		return this.root;
 	}
+	
+//	public int getOriginalHeight() {
+//		return this.originalHeight;
+//	}
 	
 	private static class Node {
 		private int element;
