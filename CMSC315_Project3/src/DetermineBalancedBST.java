@@ -42,7 +42,12 @@ public class DetermineBalancedBST {
 				
 				//Ask if user wants more trees:
 				System.out.print("More trees? Y or N: ");
-		        moreTrees = reader.next();
+		        moreTrees = reader.nextLine();
+				while(!moreTrees.equals("Y") && !moreTrees.equals("N")) {
+					System.out.println("Invalid input, try again.");
+					System.out.print("More trees? Y or N: ");
+					moreTrees = reader.nextLine();
+				}
 			} 
 			catch (InvalidTreeException ex) {
 				System.out.println(ex);

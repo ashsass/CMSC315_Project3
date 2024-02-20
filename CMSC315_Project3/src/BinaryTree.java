@@ -29,11 +29,28 @@ public class BinaryTree {
 	}
 	
 	private void validateString(String s) throws InvalidTreeException {
+		Stack<Character> stack = new Stack<>();
+		
 		for(int i = 0; i < s.length(); i++) {
+			//If a char is not a valid input char
 			if(!Character.isDigit(s.charAt(i)) && 
 					s.charAt(i) != '(' && s.charAt(i) != ')' && 
 					s.charAt(i) != '*' && s.charAt(i) != ' ') {
 				throw new InvalidTreeException("Error - unknown character found in string (" + s.charAt(i) + ")");
+			}
+			
+			if(s.charAt(i) == '(') 
+				stack.push(s.charAt(i));
+			//Missing a right parantheses
+			else if(s.charAt(i) == ')') {
+				if(stack.isEmpty()) 
+					throw new InvalidTreeException("Error: Missing a left parenthesis.");
+			}
+			
+			//Missing a left parantheses
+			else if(i == s.length() - 1 && !stack.isEmpty()) {
+				if(stack.peek() == '(') 
+					throw new InvalidTreeException("Error: Missing a right parenthesis.");
 			}
 		}
 	}
@@ -80,16 +97,16 @@ public class BinaryTree {
 					}
 				}
 				//If the right parenethesis does not have a left parenthesis in the stack throw exception
-				else if(stack.isEmpty()) 
-					throw new InvalidTreeException("Error: Missing a left parenthesis.");
+//				else if(stack.isEmpty()) 
+//					throw new InvalidTreeException("Error: Missing a left parenthesis.");
 			}
 			
 			//If we have reached the end of the string and there is a left parenthesis in the stack throw
 			//an exception
-			else if(i == s.length() - 1 && !stack.isEmpty()) {
-				if(stack.peek() == '(') 
-					throw new InvalidTreeException("Error: Missing a right parenthesis.");
-			}
+//			else if(i == s.length() - 1 && !stack.isEmpty()) {
+//				if(stack.peek() == '(') 
+//					throw new InvalidTreeException("Error: Missing a right parenthesis.");
+//			}
 		}
 		if(start != currentIndex && currentIndex > start) {
 			String leftSubstring = s.substring(start, currentIndex + 1);
