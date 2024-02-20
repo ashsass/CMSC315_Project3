@@ -5,8 +5,12 @@
  * a binary tree string. 
  */
 
-public class InvalidTreeException {
+public class InvalidTreeException extends Exception {
+//	private String message;
 	//Must be able to identify:
+	public InvalidTreeException() {
+		
+	}
 	//incomplete tree
 	
 	//data not an integer
@@ -14,4 +18,12 @@ public class InvalidTreeException {
 	//extra  characters at the end
 	
 	//Missing left or right parantheses
+	public InvalidTreeException(Character message) {
+		if(message == ')') {
+			System.out.println("Error in user input. Missing a left paratheneses");
+		}
+		else if(message == '(') {
+			System.out.println("Error in user input. Missing a right paratheneses");
+		}
+	}
 }

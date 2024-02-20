@@ -19,7 +19,7 @@ public class BinaryTree {
 	}
 	
 	//Constructor that takes a string and constructs a tree
-	public BinaryTree(String userInput) {
+	public BinaryTree(String userInput) throws InvalidTreeException {
 		currentIndex = 0;
 		root = createTree(userInput);
 		displayTree(root, 0);
@@ -65,7 +65,7 @@ public class BinaryTree {
 		return node;
 	}
 	
-	private Node createTree(String s) {
+	private Node createTree(String s) throws InvalidTreeException {
 		//Use currentIndex to move through the string and find the end index for node/subtrees
 		//Use start as the beginning point to the index
 		currentIndex = 0;
@@ -114,6 +114,14 @@ public class BinaryTree {
 						currentIndex = i;
 						break;
 					}
+				}
+				else if(stack.isEmpty()) {
+					throw new InvalidTreeException(s.charAt(i));
+				}
+			}
+			else if(i == s.length() - 1 && !stack.isEmpty()) {
+				if(stack.peek() == '(') {
+					throw new InvalidTreeException(stack.pop());
 				}
 			}
 		}

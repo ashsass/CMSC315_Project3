@@ -16,7 +16,6 @@ public class DetermineBalancedBST {
 		//System.out.print("Enter a binary tree: ");
 		String bstInput;
 		File file = new File("/Users/ashlynsassaman/git/CMSC315_Project3/CMSC315_Project3/test");
-		ArrayList<Integer> values = new ArrayList<>();
 		
 		Scanner reader;
 		try {
@@ -43,8 +42,11 @@ public class DetermineBalancedBST {
 				
 
 	        
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+		} catch (FileNotFoundException ex) {
+			ex.printStackTrace();
+		}
+		catch (InvalidTreeException ex) {
+			System.out.println(ex);
 		}
 		
 		//Display the tree
