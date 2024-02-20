@@ -40,8 +40,8 @@ public class BinaryTree {
 	//Construcor that takes in an AL of ints and makes a balanced tree 
 	//Note: for now ignore this constructor and work on createBalancedBST need to figure out how everything will flow in the main method once I have it all worked out 
 	public BinaryTree(ArrayList<Integer> list) {
-	
-		
+		root = createBalancedBST(list, 0, list.size() - 1);
+		displayTree(root, 0);
 	}
 	
 	private Node createBalancedBST(ArrayList<Integer> list, int start, int end) {
@@ -52,10 +52,10 @@ public class BinaryTree {
 		int midpoint = (start + end) / 2;
 //		System.out.println(list.get(midpoint));
 		Node node = new Node(list.get(midpoint));
-		System.out.printf("Node created: %d\n", node.element);
-		System.out.printf("Start is %d, midpoint is %d, end is %d\n", start, midpoint, end);
-		System.out.printf("Left list starts at %d and ends at %d\n", list.get(0), list.get(midpoint-1));
-		System.out.printf("Right list starts at %d and ends at %d\n", list.get(midpoint+1), list.get(end));
+//		System.out.printf("Node created: %d\n", node.element);
+//		System.out.printf("Start is %d, midpoint is %d, end is %d\n", start, midpoint, end);
+//		System.out.printf("Left list starts at %d and ends at %d\n", list.get(0), list.get(midpoint-1));
+//		System.out.printf("Right list starts at %d and ends at %d\n", list.get(midpoint+1), list.get(end));
 		node.left = createBalancedBST(list, start, midpoint - 1);
 		node.right = createBalancedBST(list, midpoint + 1, end);
 		return node;

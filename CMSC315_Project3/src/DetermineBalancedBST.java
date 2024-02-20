@@ -32,6 +32,11 @@ public class DetermineBalancedBST {
 					return;
 				}
 				System.out.println("It is a binary search tree but it is not balanced.");
+				BinaryTree newTree = new BinaryTree(tree.toArray());
+			}
+			else {
+				System.out.println("It is not binary search tree.");	
+				BinaryTree newTree = new BinaryTree(tree.toArray());
 			}
 				
 					
