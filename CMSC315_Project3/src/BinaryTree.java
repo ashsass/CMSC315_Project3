@@ -100,18 +100,9 @@ public class BinaryTree {
 						break;
 					}
 				}
-				//If the right parenethesis does not have a left parenthesis in the stack throw exception
-//				else if(stack.isEmpty()) 
-//					throw new InvalidTreeException("Error: Missing a left parenthesis.");
 			}
-			
-			//If we have reached the end of the string and there is a left parenthesis in the stack throw
-			//an exception
-//			else if(i == s.length() - 1 && !stack.isEmpty()) {
-//				if(stack.peek() == '(') 
-//					throw new InvalidTreeException("Error: Missing a right parenthesis.");
-//			}
 		}
+		
 		if(start != currentIndex && currentIndex > start) {
 			String leftSubstring = s.substring(start, currentIndex + 1);
 			String rightSubstring = s.substring(currentIndex + 2);
