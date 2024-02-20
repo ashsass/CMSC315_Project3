@@ -8,8 +8,8 @@
 public class InvalidTreeException extends Exception {
 //	private String message;
 	//Must be able to identify:
-	public InvalidTreeException() {
-		
+	public InvalidTreeException(String message) {
+		super(message);
 	}
 	//incomplete tree
 	
@@ -18,12 +18,5 @@ public class InvalidTreeException extends Exception {
 	//extra  characters at the end
 	
 	//Missing left or right parantheses
-	public InvalidTreeException(Character message) {
-		if(message == ')') {
-			System.out.println("Error in user input. Missing a left paratheneses");
-		}
-		else if(message == '(') {
-			System.out.println("Error in user input. Missing a right paratheneses");
-		}
-	}
+	
 }

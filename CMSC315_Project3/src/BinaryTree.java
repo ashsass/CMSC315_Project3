@@ -21,6 +21,7 @@ public class BinaryTree {
 	//Constructor that takes a string and constructs a tree
 	public BinaryTree(String userInput) throws InvalidTreeException {
 		currentIndex = 0;
+		validateString(userInput);
 		root = createTree(userInput);
 		displayTree(root, 0);
 //		System.out.println(root.element);
@@ -65,6 +66,18 @@ public class BinaryTree {
 		return node;
 	}
 	
+	private void validateString(String s) throws InvalidTreeException {
+		final String TREE_PATTERN = "\\((\\d+|\\*)\\s*((\\(.*\\))|(\\*))\\)";
+		if(!s.matches(TREE_PATTERN)) {
+			throw new InvalidTreeException("There is an invalid character in the string.");
+		}
+
+//		if(!Character.isDigit(s.charAt(currentIndex)) && s.charAt(currentIndex) != '(' && s.charAt(currentIndex) != ')' && s.charAt(currentIndex) != '*' && s.charAt(currentIndex) != ' ') {
+//			System.out.println("Is char a digit? : " + Character.isDigit(s.charAt(currentIndex)));
+//			throw new InvalidTreeException("Error - unknown character found in string (" + s.charAt(currentIndex) + ")");
+//		}
+	}
+	
 	private Node createTree(String s) throws InvalidTreeException {
 		//Use currentIndex to move through the string and find the end index for node/subtrees
 		//Use start as the beginning point to the index
@@ -103,6 +116,7 @@ public class BinaryTree {
 //		System.out.println("3. currentIndex: " + currentIndex);
 //		System.out.println("3. start: " + start);
 		for(int i = currentIndex; i < s.length(); i++) {
+//			System.out.println("char is " + s.charAt(i));
 			if(s.charAt(i) == '(') {
 				stack.push(s.charAt(i));
 			}
@@ -115,13 +129,17 @@ public class BinaryTree {
 						break;
 					}
 				}
+				//If the right paranethesis does not have a left paranthesis in the stack throw exception
 				else if(stack.isEmpty()) {
-					throw new InvalidTreeException(s.charAt(i));
+					throw new InvalidTreeException("Error: Missing a left paranthesis.");
 				}
 			}
+			
+			//If we have reached the end of the string and there is a left paranthesis in the stack throw
+			//an exception
 			else if(i == s.length() - 1 && !stack.isEmpty()) {
 				if(stack.peek() == '(') {
-					throw new InvalidTreeException(stack.pop());
+					throw new InvalidTreeException("Error: Missing a right paranthesis.");
 				}
 			}
 		}
