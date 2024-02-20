@@ -5,7 +5,6 @@
  */
 
 import java.util.*;
-import java.io.*;
 
 public class DetermineBalancedBST {
 
@@ -14,8 +13,6 @@ public class DetermineBalancedBST {
 
 	public static void main(String[] args) {
 		String bstInput;
-		//File file = new File("/Users/ashlynsassaman/git/CMSC315_Project3/CMSC315_Project3/test");
-		
 		Scanner reader = null;
 		int originalHeight = 0;
 		
@@ -47,9 +44,6 @@ public class DetermineBalancedBST {
 				System.out.print("More trees? Y or N: ");
 		        moreTrees = reader.next();
 			} 
-//			catch (FileNotFoundException ex) {
-//				ex.printStackTrace();
-//			}
 			catch (InvalidTreeException ex) {
 				System.out.println(ex);
 			}
