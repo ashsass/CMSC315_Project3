@@ -38,19 +38,23 @@ public class BinaryTree {
 					s.charAt(i) != '*' && s.charAt(i) != ' ') {
 				throw new InvalidTreeException("Error - unknown character found in string (" + s.charAt(i) + ")");
 			}
+			//Detect extra space at beginning of string or any any extra spaces that would throw off input reading
+			else if((i == 0 && s.charAt(i) == ' ') ||
+					(i > 1 && (s.charAt(i - 1) == ' ' && s.charAt(i) == ' ')))
+				throw new InvalidTreeException("Error - extra spaces detected");
 			
-			if(s.charAt(i) == '(') 
+			else if(s.charAt(i) == '(') 
 				stack.push(s.charAt(i));
 			//Missing a right parantheses
 			else if(s.charAt(i) == ')') {
 				if(stack.isEmpty()) 
-					throw new InvalidTreeException("Error: Missing a left parenthesis.");
+					throw new InvalidTreeException("Error - Missing a left parenthesis.");
 			}
 			
 			//Missing a left parantheses
 			else if(i == s.length() - 1 && !stack.isEmpty()) {
 				if(stack.peek() == '(') 
-					throw new InvalidTreeException("Error: Missing a right parenthesis.");
+					throw new InvalidTreeException("Error - Missing a right parenthesis.");
 			}
 		}
 	}
