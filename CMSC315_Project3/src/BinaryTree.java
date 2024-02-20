@@ -1,15 +1,13 @@
 /*
  * Name: Ashlyn Sassaman
  * Due date: 2/20/24
- * Description: 
+ * Description: Create a binary tree from user input string. Determine if the tree is a binary search tree. If it is not, take the values of the tree and add it to an ArrayList. Sort the ArrayList and redraw the input as a binary search tree. If the original user input was a binary search tree but it was not balanced, take the values as an ArrayList and rebalance the tree. 
  */
 
 import java.util.*;
-import java.util.regex.Matcher;
 /*
  * NOTE: don't even worry about balance factor if tree is not a bst
  */
-import java.util.regex.Pattern;
 
 public class BinaryTree {
 	private Node root;
