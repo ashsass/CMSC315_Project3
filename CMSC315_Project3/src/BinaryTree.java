@@ -49,9 +49,6 @@ public class BinaryTree {
 //	}
 	
 	private Node createBalancedBST(ArrayList<Integer> list, int start, int end) {
-		//Need to make sure arraylist is sorted in increasing order
-		list.sort(null);
-		
 		if(list.isEmpty()) return null;
 		else if(start > end) return null;
 		else if(list.get(start) == list.get(end)) return new Node(list.get(start)); 
@@ -95,7 +92,7 @@ public class BinaryTree {
 		
 		//Create a node if the portion of the string was a number
 		int value = Integer.parseInt(s.substring(start, currentIndex));
-		Node node = newNode(value);
+		Node node = new Node(value);
 		
 		
 		//Use stack to find the index for the left and right subtree
@@ -200,18 +197,18 @@ public class BinaryTree {
 	}
 	
 	//returns an arraylist of values from the tree (use this in the second constructor?
-	//How to traverse the binary tree for the arraylist - inorder
-	
-	//make it an array list of nodes or integers? - probaby should be node for when i need to reprint
-	//Use int for now 
 	public ArrayList<Integer> toArray() {
 		Node current = root;
 		ArrayList<Integer> arr = new ArrayList<>();
 		toArray(arr, current);
+		
+		//check if bst if not need to sort the array list 
+		if(!isBST(root)) 
+			arr.sort(null);
+		
 		return arr;
 	}
 	
-//	public ArrayList<Integer> toArray(ArrayList<Integer> arr, Node node){
 	public void toArray(ArrayList<Integer> arr, Node node){
 //		if(node == null) return null;
 //		System.out.println(node.element);
@@ -228,15 +225,10 @@ public class BinaryTree {
 		return this.root;
 	}
 	
-	private static Node newNode(int e) {
-//		System.out.println("newNode called");
-		return new Node(e);
-	}
-	
 	private static class Node {
-		int element;
-		Node left;
-		Node right;
+		private int element;
+		private Node left;
+		private Node right;
 		
 		//no-arg constructor
 		private Node() {
@@ -246,33 +238,5 @@ public class BinaryTree {
 		private Node(Integer e) {
 			this.element = e;
 		}
-		
-//		private void insert(Node node, Integer newEl) {
-//			if(n)
-//			if(newEl > node.element) {
-//				if(node.rightChild != null) {
-//					insert(node.rightChild, newEl);
-//				}
-//				else {
-//					node.rightChild = newEl;
-//				}
-//			}
-//			else if(newEl < node.element)
-//		}
-//		
-//		private void setLeftChild(Node left) {
-//			this.leftChild = left;
-//		}
-//		
-//		private Node getLeftChild() {
-//			return leftChild;
-//		}
-//		
-//		private void setRightChild(Node right) {
-//			this.rightChild = right;
-//		}
-//		private Node getRightChild() {
-//			return rightChild;
-//		}
 	}
 }
