@@ -1,7 +1,8 @@
 /*
  * Name: Ashlyn Sassaman
  * Due date: 2/20/24
- * Description: 
+ * Description: Parse the original user input and catch any errors. Throw the error and allow user to re enter
+ * a binary tree string. 
  */
 
 public class InvalidTreeException {
