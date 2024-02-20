@@ -5,9 +5,11 @@
  */
 
 import java.util.*;
+import java.util.regex.Matcher;
 /*
  * NOTE: don't even worry about balance factor if tree is not a bst
  */
+import java.util.regex.Pattern;
 
 public class BinaryTree {
 	private Node root;
@@ -19,7 +21,7 @@ public class BinaryTree {
 	}
 	
 	//Constructor that takes a string and constructs a tree
-	public BinaryTree(String userInput) {
+	public BinaryTree(String userInput) throws InvalidTreeException {
 		currentIndex = 0;
 		root = createTree(userInput);
 		displayTree(root, 0);
@@ -65,9 +67,20 @@ public class BinaryTree {
 		return node;
 	}
 	
-	private Node createTree(String s) {
+	private void validateString(String s) throws InvalidTreeException {
+		for(int i = 0; i < s.length(); i++) {
+			if(!Character.isDigit(s.charAt(i)) && 
+					s.charAt(i) != '(' && s.charAt(i) != ')' && 
+					s.charAt(i) != '*' && s.charAt(i) != ' ') {
+				throw new InvalidTreeException("Error - unknown character found in string (" + s.charAt(i) + ")");
+			}
+		}
+	}
+	
+	private Node createTree(String s) throws InvalidTreeException {
 		//Use currentIndex to move through the string and find the end index for node/subtrees
 		//Use start as the beginning point to the index
+		validateString(s);
 		currentIndex = 0;
 		int start = currentIndex;
 //		System.out.println("1. currentIndex: " + currentIndex);
@@ -103,6 +116,7 @@ public class BinaryTree {
 //		System.out.println("3. currentIndex: " + currentIndex);
 //		System.out.println("3. start: " + start);
 		for(int i = currentIndex; i < s.length(); i++) {
+//			System.out.println("char is " + s.charAt(i));
 			if(s.charAt(i) == '(') {
 				stack.push(s.charAt(i));
 			}
@@ -114,6 +128,18 @@ public class BinaryTree {
 						currentIndex = i;
 						break;
 					}
+				}
+				//If the right parenethesis does not have a left parenthesis in the stack throw exception
+				else if(stack.isEmpty()) {
+					throw new InvalidTreeException("Error: Missing a left parenthesis.");
+				}
+			}
+			
+			//If we have reached the end of the string and there is a left parenthesis in the stack throw
+			//an exception
+			else if(i == s.length() - 1 && !stack.isEmpty()) {
+				if(stack.peek() == '(') {
+					throw new InvalidTreeException("Error: Missing a right parenthesis.");
 				}
 			}
 		}
