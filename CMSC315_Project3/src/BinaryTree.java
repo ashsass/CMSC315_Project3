@@ -28,18 +28,37 @@ public class BinaryTree {
 //		System.out.println("Height of tree: " + height());
 //		System.out.println("Is tree balanced: " + isBalanced(root));
 		ArrayList<Integer> arr = toArray();
+		root = createBalancedBST(arr, 0, arr.size() - 1);
+		displayTree(root, 0);
 //		System.out.println(arr.size());
-		for(Integer e: arr)
-			System.out.print(e + " ");
+//		for(Integer e: arr)
+//			System.out.print(e + " ");
+		
 		
 	}
 	
 	//Construcor that takes in an AL of ints and makes a balanced tree 
-	//Note: create a balanced tree from array list
-	//How do i implement making it balanced? does that happen after i get the array list or should the process
-	//of making the array list incorporate making it balanced and then i just redraw it in this method?
-	public BinaryTree(ArrayList<Integer> bstList) {
+	//Note: for now ignore this constructor and work on createBalancedBST need to figure out how everything will flow in the main method once I have it all worked out 
+	public BinaryTree(ArrayList<Integer> list) {
+	
 		
+	}
+	
+	private Node createBalancedBST(ArrayList<Integer> list, int start, int end) {
+		if(list.isEmpty()) return null;
+		else if(start > end) return null;
+		else if(list.get(start) == list.get(end)) return new Node(list.get(start)); 
+		
+		int midpoint = (start + end) / 2;
+//		System.out.println(list.get(midpoint));
+		Node node = new Node(list.get(midpoint));
+		System.out.printf("Node created: %d\n", node.element);
+		System.out.printf("Start is %d, midpoint is %d, end is %d\n", start, midpoint, end);
+		System.out.printf("Left list starts at %d and ends at %d\n", list.get(0), list.get(midpoint-1));
+		System.out.printf("Right list starts at %d and ends at %d\n", list.get(midpoint+1), list.get(end));
+		node.left = createBalancedBST(list, start, midpoint - 1);
+		node.right = createBalancedBST(list, midpoint + 1, end);
+		return node;
 	}
 	
 	private Node createTree(String s) {
